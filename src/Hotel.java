@@ -57,9 +57,21 @@ public class Hotel implements  ITestable{
 
     public int getRate(){return rate;}
 
+    private boolean constraint5() {
+        for(HotelService hotelService: services.values()){
+            for(Booking booking : hotelService.getGivenServices()){
+                if(booking.getRoom().getRoomCategory().getType() == RoomCategory.RoomType.VIP && !(hotelService.getService() instanceof VipService)){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
     @Override
     public boolean checkConstraints() {
-        return true;
+        return constraint5();
     }
 
     public static boolean checkAllIntancesConstraints(Model model){
