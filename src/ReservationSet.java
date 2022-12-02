@@ -34,9 +34,18 @@ public class ReservationSet implements  ITestable{
         return reservations;
     }
 
+    public  boolean constraint7(){
+        if(hotel.getCity().equals("LAS VEGAS")){
+            if(client.getAge() < 21){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public boolean checkConstraints() {
-        return true;
+        return constraint7();
     }
 
     public static boolean checkAllIntancesConstraints(Model model){

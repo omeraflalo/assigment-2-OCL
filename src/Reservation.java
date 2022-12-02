@@ -52,9 +52,24 @@ public class Reservation implements  ITestable {
 
     public ReservationSet getReservationSet(){return reservationSet;}
 
+    private boolean constraint8(){
+        RoomCategory.RoomType room = booking.getRoom().getRoomCategory().getType();
+        if(roomCategory.getType()== RoomCategory.RoomType.VIP){
+            if(room == RoomCategory.RoomType.BASIC || room == RoomCategory.RoomType.SUITE){
+                return false;
+            }
+        }
+        if(roomCategory.getType()== RoomCategory.RoomType.SUITE){
+            if(room == RoomCategory.RoomType.BASIC){
+                return false;
+            }
+        }
+        return true;
+
+    }
     @Override
     public boolean checkConstraints() {
-        return true;
+        return constraint8();
     }
 
     public static boolean checkAllIntancesConstraints(Model model) {

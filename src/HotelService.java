@@ -46,11 +46,22 @@ public class HotelService implements ITestable {
         return quality;
     }
 
+    private boolean constraint9(){
+        if(service instanceof VipService){
+            for(Booking booking : givenServices){
+                if(booking.getReview() == null){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public HashSet<Booking> getGivenServices() {
         return givenServices;
     }
 
 
     @Override
-    public boolean checkConstraints() { return true; }
+    public boolean checkConstraints() { return constraint9(); }
 }
