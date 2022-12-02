@@ -53,10 +53,13 @@ public class Booking implements  ITestable{
         return review;
     }
 
+    private boolean constraint3() {
+        return room.getHotel() == reservation.getReservationSet().getHotel();
+    }
 
     @Override
     public boolean checkConstraints() {
-        return true;
+        return constraint3();
     }
 
     public static boolean checkAllIntancesConstraints(Model model){
