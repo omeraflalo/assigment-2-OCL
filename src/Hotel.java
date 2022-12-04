@@ -76,6 +76,7 @@ public class Hotel implements ITestable {
     }
 
     private boolean constraint6() {
+        if(rooms.size()==0) return true;
         int vipCount = 0;
         for (Room room : rooms.values()) {
             if (room.getRoomCategory().getType() == RoomCategory.RoomType.VIP) {
