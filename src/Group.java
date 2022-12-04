@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class Group implements ITestable {
@@ -32,7 +33,7 @@ public class Group implements ITestable {
         for (Hotel h1 : hotels) {
             for (Hotel h2 : hotels) {
                 if (h1 != h2) {
-                    if (h1.getCity().equals(h2.getCity())) {
+                    if (h1.getCity().equalsIgnoreCase(h2.getCity())) {
                         return false;
                     }
                 }

@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class Booking implements  ITestable{
+public class Booking implements ITestable {
     private Date date;
     private Room room;
     private ArrayList<HotelService> services;
@@ -10,28 +9,34 @@ public class Booking implements  ITestable{
     private Review review;
 
 
-    public Booking(Date a_date, Room a_room){
+    public Booking(Date a_date, Room a_room) {
         date = a_date;
         room = a_room;
         services = new ArrayList<HotelService>();
     }
 
-    public void addService(HotelService s){
+    public static boolean checkAllIntancesConstraints(Model model) {
+        return true;
+    }
+
+    public void addService(HotelService s) {
         services.add(s);
     }
 
-    public void addReview(Review a_review) {review  = a_review; }
-
-    public void addReservation(Reservation r){
-        reservation = r;
+    public void addReview(Review a_review) {
+        review = a_review;
     }
 
-    public void assignRoom(Room room){
-        this.room = room;
+    public void addReservation(Reservation r) {
+        reservation = r;
     }
 
 
     // getters
+
+    public void assignRoom(Room room) {
+        this.room = room;
+    }
 
     public Date getDate() {
         return date;
@@ -57,12 +62,17 @@ public class Booking implements  ITestable{
         return room.getHotel() == reservation.getReservationSet().getHotel();
     }
 
-    @Override
-    public boolean checkConstraints() {
-        return constraint3();
+    private boolean constraint13() {
+        for (HotelService hotelService : services) {
+            if (hotelService.getHotel() != reservation.getReservationSet().getHotel()) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    public static boolean checkAllIntancesConstraints(Model model){
-        return true;
+    @Override
+    public boolean checkConstraints() {
+        return constraint3() && constraint13();
     }
 }
