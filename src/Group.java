@@ -1,5 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashSet;
-import java.util.Locale;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Group implements ITestable {
@@ -11,11 +13,11 @@ public class Group implements ITestable {
         groupId = id;
     }
 
+    //getters
+
     public static boolean checkAllIntancesConstraints(Model model) {
         return true;
     }
-
-    //getters
 
     public void addHotelToGroup(Hotel hotel) {
         hotels.add(hotel);
