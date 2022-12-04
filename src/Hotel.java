@@ -88,25 +88,25 @@ public class Hotel implements ITestable {
     private boolean constraint10() {
         int sum = 0, amount = 0;
         if (rate == 5) {
-            for(ReservationSet reservationSet : allReservation.values()){
-                for (Reservation reservation : reservationSet.getReservations()){
-                    if(reservation.getBookings().getReview() !=null){
-                        amount ++;
+            for (ReservationSet reservationSet : allReservation.values()) {
+                for (Reservation reservation : reservationSet.getReservations()) {
+                    if (reservation.getBookings() != null && reservation.getBookings().getReview() != null) {
+                        amount++;
                         sum += reservation.getBookings().getReview().getRank();
                     }
                 }
             }
-            if((float)sum/amount<=7.5){
+            if ((float) sum / amount <= 7.5) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean constraint11(){
-        for (Service service1 : services.keySet()){
-            for (Service service2 : services.keySet()){
-                if(service1 != service2 && service1.getServiceName().equalsIgnoreCase(service2.getServiceName())){
+    private boolean constraint11() {
+        for (Service service1 : services.keySet()) {
+            for (Service service2 : services.keySet()) {
+                if (service1 != service2 && service1.getServiceName().equalsIgnoreCase(service2.getServiceName())) {
                     return false;
                 }
             }
@@ -114,26 +114,28 @@ public class Hotel implements ITestable {
         return true;
     }
 
-    private boolean constraint12(){
-        HashMap<Integer,Integer> income = new HashMap<>();
-        for(ReservationSet reservationSet: allReservation.values()){
-            for (Reservation reservation: reservationSet.getReservations()){
-                for (HotelService hotelService : reservation.getBookings().getServices()){
-                    int price = hotelService.getPrice()*hotelService.getQuality();
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTime(reservation.getBookings().getDate());
-                    Integer year = calendar.get(Calendar.YEAR);
-                    income.put(year, income.getOrDefault(year,0)+price);
+    private boolean constraint12() {
+        HashMap<Integer, Integer> income = new HashMap<>();
+        for (ReservationSet reservationSet : allReservation.values()) {
+            for (Reservation reservation : reservationSet.getReservations()) {
+                if (reservation.getBookings() != null) {
+                    for (HotelService hotelService : reservation.getBookings().getServices()) {
+                        int price = hotelService.getPrice() * hotelService.getQuality();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(reservation.getBookings().getDate());
+                        Integer year = calendar.get(Calendar.YEAR);
+                        income.put(year, income.getOrDefault(year, 0) + price);
+                    }
                 }
             }
         }
-        List<Integer> sortedKeys=new ArrayList<Integer>(income.keySet());
+        List<Integer> sortedKeys = new ArrayList<Integer>(income.keySet());
         Collections.sort(sortedKeys);
-        for(int i = 0; i< sortedKeys.size()-1;i++){
-            if(income.get(sortedKeys.get(i))!=0 && sortedKeys.get(i) +1 != sortedKeys.get(i+1)){
+        for (int i = 0; i < sortedKeys.size() - 1; i++) {
+            if (income.get(sortedKeys.get(i)) != 0 && sortedKeys.get(i) + 1 != sortedKeys.get(i + 1)) {
                 return false;
             }
-            if(income.getOrDefault(sortedKeys.get(i),0) >=income.getOrDefault(sortedKeys.get(i+1),0)){
+            if (income.getOrDefault(sortedKeys.get(i), 0) >= income.getOrDefault(sortedKeys.get(i + 1), 0)) {
                 return false;
             }
         }

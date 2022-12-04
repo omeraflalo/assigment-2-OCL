@@ -1,7 +1,6 @@
 import java.util.Date;
-import java.util.ArrayList;
 
-public class Reservation implements  ITestable {
+public class Reservation implements ITestable {
     private int id;
     private RoomCategory roomCategory;
     private Date orderDate;
@@ -16,10 +15,9 @@ public class Reservation implements  ITestable {
         requestDate = reqDate;
     }
 
-    public void setReservationSet(ReservationSet reservationSet){
-        this.reservationSet = reservationSet;
+    public static boolean checkAllIntancesConstraints(Model model) {
+        return true;
     }
-
 
     public void addRoomCategory(RoomCategory roomCategory) {
         this.roomCategory = roomCategory;
@@ -50,30 +48,36 @@ public class Reservation implements  ITestable {
         return id;
     }
 
-    public ReservationSet getReservationSet(){return reservationSet;}
+    public ReservationSet getReservationSet() {
+        return reservationSet;
+    }
 
-    private boolean constraint8(){
+    public void setReservationSet(ReservationSet reservationSet) {
+        this.reservationSet = reservationSet;
+    }
+
+    private boolean constraint8() {
+        if (booking == null) {
+            return true;
+        }
         RoomCategory.RoomType room = booking.getRoom().getRoomCategory().getType();
-        if(roomCategory.getType()== RoomCategory.RoomType.VIP){
-            if(room == RoomCategory.RoomType.BASIC || room == RoomCategory.RoomType.SUITE){
+        if (roomCategory.getType() == RoomCategory.RoomType.VIP) {
+            if (room == RoomCategory.RoomType.BASIC || room == RoomCategory.RoomType.SUITE) {
                 return false;
             }
         }
-        if(roomCategory.getType()== RoomCategory.RoomType.SUITE){
-            if(room == RoomCategory.RoomType.BASIC){
+        if (roomCategory.getType() == RoomCategory.RoomType.SUITE) {
+            if (room == RoomCategory.RoomType.BASIC) {
                 return false;
             }
         }
         return true;
 
     }
+
     @Override
     public boolean checkConstraints() {
         return constraint8();
-    }
-
-    public static boolean checkAllIntancesConstraints(Model model) {
-        return true;
     }
 
 
